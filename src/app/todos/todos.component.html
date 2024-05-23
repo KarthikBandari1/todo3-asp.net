@@ -1,0 +1,55 @@
+<div class="pt-3 pb-4 pl-3 pr-2">
+    <h2>Todos</h2>
+  
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Add New Todo</h5><br/>
+        <form (ngSubmit)="addTodo(); todoForm.resetForm();" class="d-flex pt-3" #todoForm="ngForm">
+            <div class="form-group mr-4" [ngClass]="{'has-error': title.invalid && title.touched}">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newTodo.title" #title="ngModel" required>
+            </div>
+            <div class="form-group mr-4" [ngClass]="{'has-error': assignee.invalid && assignee.touched}">
+              <label for="assignee">Assignee</label>
+              <input type="text" class="form-control" id="assignee" name="assignee" [(ngModel)]="newTodo.assignee" #assignee="ngModel" required>
+            </div>
+            <div class="form-group mr-4" [ngClass]="{'has-error': description.invalid && description.touched}">
+              <label for="description">Description</label>
+              <input class="form-control" id="description" name="description" [(ngModel)]="newTodo.description" #description="ngModel" required>
+            </div>
+            <button type="submit" class="btn btn-primary my-button" [disabled]="!todoForm.form.valid">Add Todo</button>
+          </form>
+      </div>
+    </div>
+  
+    <table class="table table-hover mt-3">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Assignee</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Completed</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let todo of todos">
+            <td>{{ todo.title }}</td>
+            <td>{{ todo.assignee }}</td>
+            <td>{{ todo.description }}</td>
+            <td>
+              <span *ngIf="todo.isCompleted" class="badge badge-success">Completed</span>
+              <span *ngIf="!todo.isCompleted" class="badge badge-warning">Pending</span>
+            </td>
+            <td>
+              <input type="checkbox" [checked]="todo.isCompleted" (change)="markAsCompletedOrPending(todo)">
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteTodo(todo)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  
